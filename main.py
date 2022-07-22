@@ -73,15 +73,13 @@ async def restart(client, message):
         await message.delete()
     except:
         pass
-    process = FFMPEG_PROCESSES.get(CHAT)
-    if process:
+    if process := FFMPEG_PROCESSES.get(CHAT):
         try:
             process.send_signal(SIGINT)
         except subprocess.TimeoutExpired:
             process.kill()
         except Exception as e:
             print(e)
-            pass
         FFMPEG_PROCESSES[CHAT] = ""
     Thread(
         target=stop_and_restart
